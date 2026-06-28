@@ -1,0 +1,1167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Maison Éclat — The Mediterranean Edit</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,200;0,9..144,300;0,9..144,400;1,9..144,200;1,9..144,300;1,9..144,400&family=Space+Mono:ital@0;1&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ─── TOKENS ──────────────────────────────────────── */
+    :root {
+      --paper:      #E5DFD3;
+      --paper-deep: #DAD3C4;
+      --ink:        #1C1C1A;
+      --ink-soft:   #6B6862;
+      --line:       rgba(28,28,26,0.15);
+      --aegean:     #184E77;
+
+      --f-display: 'Fraunces', Georgia, serif;
+      --f-mono:    'Space Mono', 'Courier New', monospace;
+
+      --ease: cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    /* ─── RESET ───────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--f-mono);
+      font-size: 14px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    img { display: block; width: 100%; height: 100%; object-fit: cover; }
+    a { color: inherit; text-decoration: none; }
+
+    /* ─── REVEALS ─────────────────────────────────────── */
+    .r {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 1s var(--ease), transform 1s var(--ease);
+    }
+    .r.on { opacity: 1; transform: none; }
+    .r1 { transition-delay: 80ms; }
+    .r2 { transition-delay: 180ms; }
+    .r3 { transition-delay: 300ms; }
+    .r4 { transition-delay: 420ms; }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+    }
+
+    /* ─── NAV ─────────────────────────────────────────── */
+    nav {
+      position: fixed;
+      inset: 0 0 auto;
+      z-index: 100;
+      padding: 1.6rem 3rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      mix-blend-mode: multiply; /* lets it sit naturally over both light and image areas */
+      transition: background 0.4s ease;
+    }
+    nav.bg {
+      mix-blend-mode: normal;
+      background: rgba(229,223,211,0.92);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--line);
+    }
+    .nav-logo {
+      font-family: var(--f-display);
+      font-size: 1.15rem;
+      font-weight: 300;
+      letter-spacing: 0.04em;
+      color: var(--ink);
+    }
+    .nav-logo em { font-style: italic; }
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+    .nav-links a {
+      font-family: var(--f-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--ink); }
+    .nav-enquire {
+      font-family: var(--f-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 0.55rem 1.2rem;
+      border: 1px solid var(--ink);
+      color: var(--ink);
+      transition: background 0.2s, color 0.2s;
+    }
+    .nav-enquire:hover { background: var(--ink); color: var(--paper); }
+
+    /* ─── HERO ────────────────────────────────────────── */
+    .hero {
+      position: relative;
+      height: 100svh;
+      min-height: 640px;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: end;
+    }
+    /* Full-bleed image behind everything */
+    .hero-img {
+      position: absolute;
+      inset: 0;
+      /* REPLACE: client hero image */
+      background: url('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1800&q=85') center/cover no-repeat;
+      transform: scale(1.04);
+      animation: hzoom 18s ease-out forwards;
+    }
+    @keyframes hzoom { to { transform: scale(1); } }
+    /* Left half: warm paper scrim so text is legible */
+    .hero-scrim {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        90deg,
+        rgba(229,223,211,0.82) 0%,
+        rgba(229,223,211,0.30) 55%,
+        rgba(229,223,211,0.0) 100%
+      );
+    }
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      padding: 0 3rem 5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      height: 100%;
+    }
+    .hero-mono {
+      font-family: var(--f-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      margin-bottom: 2rem;
+    }
+    .hero-hl {
+      font-family: var(--f-display);
+      font-size: clamp(3.5rem, 7vw, 6.5rem);
+      font-weight: 200;
+      line-height: 0.95;
+      letter-spacing: -0.025em;
+      color: var(--ink);
+      margin-bottom: 3rem;
+    }
+    .hero-hl em {
+      font-style: italic;
+      font-weight: 200;
+    }
+    /* The headline intentionally breaks out slightly on the second line */
+    .hero-hl .indent { padding-left: 2.5rem; display: block; }
+    .hero-hl .indent2 { padding-left: 5rem; display: block; }
+
+    .hero-meta {
+      display: flex;
+      align-items: center;
+      gap: 2.5rem;
+    }
+    .hero-stat {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+    }
+    .hero-stat-num {
+      font-family: var(--f-display);
+      font-size: 1.6rem;
+      font-weight: 200;
+      line-height: 1;
+      color: var(--ink);
+    }
+    .hero-stat-label {
+      font-family: var(--f-mono);
+      font-size: 0.58rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+    }
+    .hero-divider {
+      width: 1px;
+      height: 40px;
+      background: var(--line);
+    }
+    /* Bottom-right scroll indicator */
+    .hero-scroll {
+      position: absolute;
+      bottom: 2.5rem;
+      right: 2.5rem;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.75rem;
+      font-family: var(--f-mono);
+      font-size: 0.58rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      writing-mode: vertical-rl;
+    }
+    .hero-scroll::before {
+      content: '';
+      display: block;
+      width: 1px;
+      height: 48px;
+      background: var(--ink-soft);
+      animation: scrollline 1.8s ease-in-out infinite;
+    }
+    @keyframes scrollline {
+      0%,100% { transform: scaleY(1); opacity: 0.4; }
+      50% { transform: scaleY(0.5); opacity: 1; }
+    }
+
+    /* ─── RULE + SECTION LABELS ───────────────────────── */
+    .rule {
+      width: 100%;
+      height: 1px;
+      background: var(--line);
+    }
+    .section-label {
+      font-family: var(--f-mono);
+      font-size: 0.62rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+    }
+
+    /* ─── INTRO STATEMENT ─────────────────────────────── */
+    .intro {
+      padding: 6rem 3rem;
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: 4rem;
+      align-items: start;
+      border-bottom: 1px solid var(--line);
+    }
+    .intro-left {
+      padding-top: 0.5rem;
+    }
+    .intro-right {}
+    .intro-hl {
+      font-family: var(--f-display);
+      font-size: clamp(2.8rem, 5vw, 4.8rem);
+      font-weight: 200;
+      line-height: 0.98;
+      letter-spacing: -0.02em;
+      max-width: 700px;
+      margin-bottom: 2.5rem;
+    }
+    .intro-hl em { font-style: italic; }
+    .intro-body {
+      font-family: var(--f-mono);
+      font-size: 0.72rem;
+      line-height: 1.9;
+      color: var(--ink-soft);
+      max-width: 460px;
+    }
+
+    /* ─── PROPERTIES ──────────────────────────────────── */
+    .properties {
+      padding: 0 0 4rem;
+      border-bottom: 1px solid var(--line);
+    }
+    .properties-header {
+      padding: 3rem 3rem 4rem;
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--line);
+      margin-bottom: 0;
+    }
+    .properties-header-right {
+      font-family: var(--f-mono);
+      font-size: 0.62rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      transition: color 0.2s;
+    }
+    .properties-header-right:hover { color: var(--ink); }
+
+    /* Single property row — staggered */
+    .prop {
+      display: grid;
+      grid-template-columns: 80px 1fr;
+      border-bottom: 1px solid var(--line);
+      padding: 4rem 3rem;
+      gap: 0;
+      align-items: start;
+    }
+    .prop-num {
+      font-family: var(--f-display);
+      font-size: 4.5rem;
+      font-weight: 200;
+      color: var(--line);
+      line-height: 1;
+      padding-top: 0.2rem;
+      /* Slightly different size per item for stagger feel */
+    }
+    .prop-inner {
+      display: grid;
+      grid-template-columns: 1fr 480px;
+      gap: 3rem;
+      align-items: start;
+    }
+    /* Even props: image right is default, odd: image left — we use order */
+    .prop:nth-child(even) .prop-inner {
+      grid-template-columns: 480px 1fr;
+    }
+    .prop:nth-child(even) .prop-img  { order: -1; }
+    .prop:nth-child(even) .prop-text { padding-left: 0; padding-right: 2rem; }
+
+    .prop-img {
+      position: relative;
+      overflow: hidden;
+    }
+    /* Each image is a different height — the asymmetry */
+    .prop:nth-child(1) .prop-img { aspect-ratio: 4/3; }
+    .prop:nth-child(2) .prop-img { aspect-ratio: 3/4; }
+    .prop:nth-child(3) .prop-img { aspect-ratio: 16/10; }
+
+    .prop-img img {
+      transition: transform 0.7s var(--ease);
+    }
+    .prop:hover .prop-img img { transform: scale(1.03); }
+
+    .prop-tag {
+      position: absolute;
+      top: 1.25rem;
+      left: 1.25rem;
+      font-family: var(--f-mono);
+      font-size: 0.58rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      background: var(--paper);
+      color: var(--aegean);
+      padding: 0.35rem 0.75rem;
+    }
+
+    .prop-text {
+      padding-top: 0.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .prop-location {
+      font-family: var(--f-mono);
+      font-size: 0.62rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      margin-bottom: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .prop-location::before {
+      content: '';
+      display: block;
+      width: 20px;
+      height: 1px;
+      background: var(--ink-soft);
+    }
+    .prop-name {
+      font-family: var(--f-display);
+      font-size: clamp(2rem, 3.5vw, 3.2rem);
+      font-weight: 200;
+      line-height: 1.0;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      margin-bottom: 2rem;
+    }
+    .prop-name em { font-style: italic; }
+    .prop-desc {
+      font-family: var(--f-mono);
+      font-size: 0.68rem;
+      line-height: 1.85;
+      color: var(--ink-soft);
+      max-width: 360px;
+      margin-bottom: 2.5rem;
+    }
+
+    /* Specs as mono data table */
+    .prop-specs {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      margin-bottom: 2.5rem;
+      border-top: 1px solid var(--line);
+    }
+    .prop-spec {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 0.65rem 0;
+      border-bottom: 1px solid var(--line);
+      font-family: var(--f-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.08em;
+    }
+    .prop-spec-key {
+      text-transform: uppercase;
+      color: var(--ink-soft);
+    }
+    .prop-spec-val {
+      color: var(--ink);
+      font-style: italic;
+      font-family: var(--f-mono);
+    }
+
+    /* Price */
+    .prop-price {
+      margin-bottom: 2.5rem;
+    }
+    .prop-price-from {
+      font-family: var(--f-mono);
+      font-size: 0.58rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      margin-bottom: 0.25rem;
+    }
+    .prop-price-amount {
+      font-family: var(--f-display);
+      font-size: 2.2rem;
+      font-weight: 200;
+      letter-spacing: -0.01em;
+      color: var(--ink);
+      line-height: 1;
+    }
+    .prop-price-unit {
+      font-family: var(--f-mono);
+      font-size: 0.58rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      margin-top: 0.3rem;
+    }
+
+    .prop-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-family: var(--f-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ink);
+      border-bottom: 1px solid var(--ink);
+      padding-bottom: 0.2rem;
+      align-self: flex-start;
+      transition: gap 0.3s var(--ease);
+    }
+    .prop-cta:hover { gap: 1.25rem; }
+
+    /* ─── GHOST DESTINATION SWITCHER ──────────────────── */
+    .ghost-section {
+      position: relative;
+      height: 100vh;
+      min-height: 600px;
+      overflow: hidden;
+      display: flex;
+      border-bottom: 1px solid var(--line);
+    }
+    /* Background images for each destination */
+    .ghost-bg {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transition: opacity 0.6s ease;
+    }
+    .ghost-bg.active { opacity: 1; }
+    .ghost-bg-1 { background: url('https://images.unsplash.com/photo-1533105079780-92b9be482077?w=1600&q=80') center/cover; }
+    .ghost-bg-2 { background: url('https://images.unsplash.com/photo-1523906834658-6e24ef2386f9?w=1600&q=80') center/cover; }
+    .ghost-bg-3 { background: url('https://images.unsplash.com/photo-1601918774946-25832a4be0d6?w=1600&q=80') center/cover; }
+    .ghost-bg-4 { background: url('https://images.unsplash.com/photo-1533105135-6f88d01b6d3d?w=1600&q=80') center/cover; }
+    .ghost-bg-5 { background: url('https://images.unsplash.com/photo-1516483638261-f4dbaf036963?w=1600&q=80') center/cover; }
+    /* Scrim so paper-tinted on left */
+    .ghost-scrim {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, rgba(229,223,211,0.88) 0%, rgba(229,223,211,0.2) 60%, transparent 100%);
+      z-index: 1;
+    }
+    /* When no destination hovered, show solid paper */
+    .ghost-section.idle .ghost-scrim {
+      background: var(--paper);
+    }
+    .ghost-content {
+      position: relative;
+      z-index: 2;
+      padding: 0 3rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      width: 100%;
+    }
+    .ghost-label {
+      font-family: var(--f-mono);
+      font-size: 0.62rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      margin-bottom: 3rem;
+    }
+    .ghost-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .ghost-item {
+      display: flex;
+      align-items: baseline;
+      gap: 2rem;
+      cursor: default;
+      border-top: 1px solid var(--line);
+      padding: 1rem 0;
+    }
+    .ghost-item:last-child { border-bottom: 1px solid var(--line); }
+    .ghost-item-num {
+      font-family: var(--f-mono);
+      font-size: 0.58rem;
+      letter-spacing: 0.1em;
+      color: var(--ink-soft);
+      width: 2rem;
+      flex-shrink: 0;
+    }
+    .ghost-item-name {
+      font-family: var(--f-display);
+      /* Outline text by default */
+      font-size: clamp(2rem, 5vw, 4.5rem);
+      font-weight: 200;
+      line-height: 1;
+      letter-spacing: -0.02em;
+      color: transparent;
+      -webkit-text-stroke: 1px var(--ink);
+      transition: color 0.3s ease, -webkit-text-stroke 0.3s ease;
+    }
+    .ghost-item-name em { font-style: italic; }
+    .ghost-item-count {
+      font-family: var(--f-mono);
+      font-size: 0.58rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      opacity: 0;
+      transform: translateX(-8px);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+    /* Hover: fill the name, reveal count */
+    .ghost-item:hover .ghost-item-name {
+      color: var(--ink);
+      -webkit-text-stroke: 1px transparent;
+    }
+    .ghost-item:hover .ghost-item-count {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    /* ─── QUOTE ───────────────────────────────────────── */
+    .quote-section {
+      padding: 8rem 3rem;
+      background: var(--paper-deep);
+      border-bottom: 1px solid var(--line);
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+    .quote-hl {
+      font-family: var(--f-display);
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      font-weight: 200;
+      font-style: italic;
+      line-height: 1.15;
+      letter-spacing: -0.015em;
+      color: var(--ink);
+      max-width: 720px;
+      margin-bottom: 2rem;
+    }
+    .quote-attr {
+      font-family: var(--f-mono);
+      font-size: 0.62rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+    }
+
+    /* ─── PROCESS ─────────────────────────────────────── */
+    .process {
+      padding: 6rem 3rem;
+      border-bottom: 1px solid var(--line);
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: 4rem;
+    }
+    .process-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0;
+      border-top: 1px solid var(--line);
+      border-left: 1px solid var(--line);
+    }
+    .process-item {
+      padding: 2.5rem 2rem;
+      border-right: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+    .process-num {
+      font-family: var(--f-display);
+      font-size: 2.5rem;
+      font-weight: 200;
+      color: var(--line);
+      line-height: 1;
+      margin-bottom: 1.5rem;
+    }
+    .process-title {
+      font-family: var(--f-display);
+      font-size: 1.3rem;
+      font-weight: 300;
+      color: var(--ink);
+      margin-bottom: 0.75rem;
+      line-height: 1.1;
+    }
+    .process-title em { font-style: italic; }
+    .process-body {
+      font-family: var(--f-mono);
+      font-size: 0.65rem;
+      line-height: 1.85;
+      color: var(--ink-soft);
+    }
+
+    /* ─── CTA ─────────────────────────────────────────── */
+    .cta {
+      padding: 8rem 3rem;
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: 4rem;
+      align-items: end;
+      border-bottom: 1px solid var(--line);
+    }
+    .cta-hl {
+      font-family: var(--f-display);
+      font-size: clamp(3rem, 6vw, 5.5rem);
+      font-weight: 200;
+      line-height: 0.95;
+      letter-spacing: -0.025em;
+      color: var(--ink);
+      margin-bottom: 3rem;
+    }
+    .cta-hl em { font-style: italic; }
+    .cta-actions {
+      display: flex;
+      align-items: center;
+      gap: 3rem;
+    }
+    .cta-email {
+      font-family: var(--f-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.06em;
+      color: var(--ink);
+      border-bottom: 1px solid var(--ink);
+      padding-bottom: 0.15rem;
+      transition: color 0.2s;
+    }
+    .cta-email:hover { color: var(--ink-soft); }
+    .cta-or {
+      font-family: var(--f-mono);
+      font-size: 0.6rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+    }
+    .cta-phone {
+      font-family: var(--f-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.06em;
+      color: var(--ink-soft);
+      transition: color 0.2s;
+    }
+    .cta-phone:hover { color: var(--ink); }
+    .cta-note {
+      margin-top: 2rem;
+      font-family: var(--f-mono);
+      font-size: 0.6rem;
+      letter-spacing: 0.1em;
+      line-height: 1.8;
+      color: var(--ink-soft);
+      max-width: 380px;
+    }
+
+    /* ─── FOOTER ──────────────────────────────────────── */
+    footer {
+      padding: 3rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 2rem;
+      align-items: center;
+    }
+    .footer-logo {
+      font-family: var(--f-display);
+      font-size: 1rem;
+      font-weight: 300;
+      letter-spacing: 0.04em;
+    }
+    .footer-logo em { font-style: italic; }
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      list-style: none;
+    }
+    .footer-links a {
+      font-family: var(--f-mono);
+      font-size: 0.6rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--ink); }
+    .footer-copy {
+      font-family: var(--f-mono);
+      font-size: 0.58rem;
+      letter-spacing: 0.1em;
+      color: var(--ink-soft);
+      text-align: right;
+    }
+
+    /* ─── MOBILE ──────────────────────────────────────── */
+    @media (max-width: 860px) {
+      nav { padding: 1.25rem 1.25rem; }
+      .nav-links { display: none; }
+
+      .hero { grid-template-columns: 1fr; }
+      .hero-content { padding: 0 1.5rem 3.5rem; }
+      .hero-hl { font-size: clamp(3rem, 12vw, 5rem); }
+      .hero-scroll { display: none; }
+
+      .intro,
+      .quote-section,
+      .process,
+      .cta {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        padding: 4rem 1.5rem;
+      }
+
+      .prop { padding: 3rem 1.5rem; grid-template-columns: 48px 1fr; }
+      .prop-inner { grid-template-columns: 1fr !important; }
+      .prop:nth-child(even) .prop-img { order: unset; }
+      .prop:nth-child(1) .prop-img,
+      .prop:nth-child(2) .prop-img,
+      .prop:nth-child(3) .prop-img { aspect-ratio: 16/10; }
+      .properties-header { padding: 2rem 1.5rem; }
+
+      .ghost-content { padding: 0 1.5rem; }
+      .ghost-item-name { font-size: clamp(1.5rem, 8vw, 3rem); }
+
+      .process-grid { grid-template-columns: 1fr; }
+
+      footer { grid-template-columns: 1fr; text-align: center; gap: 1.5rem; }
+      .footer-links { justify-content: center; }
+      .footer-copy { text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav id="nav">
+    <!-- REPLACE: client name -->
+    <div class="nav-logo">Maison <em>Éclat</em></div>
+    <ul class="nav-links">
+      <li><a href="#properties">Villas</a></li>
+      <li><a href="#destinations">Destinations</a></li>
+      <li><a href="#process">Process</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a href="#contact" class="nav-enquire">Enquire</a>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-img"></div>
+    <div class="hero-scrim"></div>
+    <div class="hero-content">
+      <!-- REPLACE: their location / season -->
+      <p class="hero-mono r">The Mediterranean Edit — Summer 2025</p>
+      <!-- REPLACE: headline, keep it under 8 words, break lines intentionally -->
+      <h1 class="hero-hl r r1">
+        Villas chosen<br>
+        <span class="indent">for the <em>quality</em></span>
+        <span class="indent2">of light.</span>
+      </h1>
+      <div class="hero-meta r r2">
+        <!-- REPLACE: real numbers -->
+        <div class="hero-stat">
+          <span class="hero-stat-num">24</span>
+          <span class="hero-stat-label">Properties</span>
+        </div>
+        <div class="hero-divider"></div>
+        <div class="hero-stat">
+          <span class="hero-stat-num">9</span>
+          <span class="hero-stat-label">Coastlines</span>
+        </div>
+        <div class="hero-divider"></div>
+        <div class="hero-stat">
+          <span class="hero-stat-num">1</span>
+          <span class="hero-stat-label">Group at a time</span>
+        </div>
+      </div>
+    </div>
+    <div class="hero-scroll">Scroll</div>
+  </section>
+
+  <!-- INTRO -->
+  <section class="intro" id="about">
+    <div class="intro-left">
+      <p class="section-label r">— About</p>
+    </div>
+    <div class="intro-right">
+      <h2 class="intro-hl r r1">
+        Not a catalogue.<br>A <em>considered</em><br>collection.
+      </h2>
+      <!-- REPLACE: 2 sentences from their actual About copy -->
+      <p class="intro-body r r2">
+        We visit every property before it joins the collection.
+        We know which terrace catches the morning light, which
+        kitchen is actually worth cooking in, which pool is
+        truly private.<br><br>
+        Our collection is deliberately small. Every villa earns its place.
+      </p>
+    </div>
+  </section>
+
+  <!-- PROPERTIES -->
+  <section class="properties" id="properties">
+    <div class="properties-header">
+      <p class="section-label r">— Featured villas</p>
+      <!-- REPLACE: link to their listings -->
+      <a href="#contact" class="properties-header-right r">View all villas →</a>
+    </div>
+
+    <!-- PROPERTY 01 -->
+    <!-- REPLACE: all copy, image, specs, price -->
+    <div class="prop r">
+      <div class="prop-num">01</div>
+      <div class="prop-inner">
+        <div class="prop-text">
+          <p class="prop-location">Côte d'Azur, France</p>
+          <h3 class="prop-name">Villa <em>Soleil</em></h3>
+          <p class="prop-desc">
+            Set above the bay at Ramatuelle, this 1970s estate has
+            been quietly restored — original stone floors, a pool
+            that appears to spill directly into the sea below.
+          </p>
+          <div class="prop-specs">
+            <div class="prop-spec">
+              <span class="prop-spec-key">Bedrooms</span>
+              <span class="prop-spec-val">5</span>
+            </div>
+            <div class="prop-spec">
+              <span class="prop-spec-key">Guests</span>
+              <span class="prop-spec-val">12</span>
+            </div>
+            <div class="prop-spec">
+              <span class="prop-spec-key">Pool</span>
+              <span class="prop-spec-val">Infinity, sea-facing</span>
+            </div>
+            <div class="prop-spec">
+              <span class="prop-spec-key">Concierge</span>
+              <span class="prop-spec-val">Included</span>
+            </div>
+          </div>
+          <div class="prop-price">
+            <p class="prop-price-from">From</p>
+            <p class="prop-price-amount">£4,200</p>
+            <p class="prop-price-unit">Per night · minimum 7 nights</p>
+          </div>
+          <a href="#contact" class="prop-cta">Enquire about this villa →</a>
+        </div>
+        <div class="prop-img">
+          <!-- REPLACE: scraped property image -->
+          <img src="https://images.unsplash.com/photo-1613977257363-707ba9348227?w=1200&q=85"
+               alt="Villa Soleil" loading="lazy" width="1200" height="900" />
+          <span class="prop-tag">Available summer 2025</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROPERTY 02 — image left (nth-child even reverses) -->
+    <!-- REPLACE -->
+    <div class="prop r">
+      <div class="prop-num">02</div>
+      <div class="prop-inner">
+        <div class="prop-text">
+          <p class="prop-location">Chianti, Tuscany</p>
+          <h3 class="prop-name">Casa <em>Sera</em></h3>
+          <p class="prop-desc">
+            A 16th-century farmhouse at the end of a cypress-lined
+            track. Three hectares of private vineyard, a kitchen
+            garden that actually gets used, and a silence that takes
+            a day to get used to.
+          </p>
+          <div class="prop-specs">
+            <div class="prop-spec">
+              <span class="prop-spec-key">Bedrooms</span>
+              <span class="prop-spec-val">6</span>
+            </div>
+            <div class="prop-spec">
+              <span class="prop-spec-key">Guests</span>
+              <span class="prop-spec-val">14</span>
+            </div>
+            <div class="prop-spec">
+              <span class="prop-spec-key">Land</span>
+              <span class="prop-spec-val">3ha private</span>
+            </div>
+            <div class="prop-spec">
+              <span class="prop-spec-key">Chef available</span>
+              <span class="prop-spec-val">Yes</span>
+            </div>
+          </div>
+          <div class="prop-price">
+            <p class="prop-price-from">From</p>
+            <p class="prop-price-amount">£2,800</p>
+            <p class="prop-price-unit">Per night · minimum 7 nights</p>
+          </div>
+          <a href="#contact" class="prop-cta">Enquire about this villa →</a>
+        </div>
+        <div class="prop-img">
+          <!-- REPLACE -->
+          <img src="https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=1200&q=85"
+               alt="Casa Sera" loading="lazy" width="1200" height="900" />
+          <span class="prop-tag">New to collection</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROPERTY 03 -->
+    <!-- REPLACE -->
+    <div class="prop r">
+      <div class="prop-num">03</div>
+      <div class="prop-inner">
+        <div class="prop-text">
+          <p class="prop-location">Ibiza, Balearic Islands</p>
+          <h3 class="prop-name">Finca <em>Tranquila</em></h3>
+          <p class="prop-desc">
+            A traditional finca in the hills above Santa Gertrudis.
+            Far enough from the port to feel genuinely secluded,
+            close enough to reach it in twelve minutes.
+          </p>
+          <div class="prop-specs">
+            <div class="prop-spec">
+              <span class="prop-spec-key">Bedrooms</span>
+              <span class="prop-spec-val">4</span>
+            </div>
+            <div class="prop-spec">
+              <span class="prop-spec-key">Guests</span>
+              <span class="prop-spec-val">8</span>
+            </div>
+            <div class="prop-spec">
+              <span class="prop-spec-key">Pool</span>
+              <span class="prop-spec-val">Private, heated</span>
+            </div>
+            <div class="prop-spec">
+              <span class="prop-spec-key">Chef available</span>
+              <span class="prop-spec-val">Yes</span>
+            </div>
+          </div>
+          <div class="prop-price">
+            <p class="prop-price-from">From</p>
+            <p class="prop-price-amount">£3,100</p>
+            <p class="prop-price-unit">Per night · minimum 5 nights</p>
+          </div>
+          <a href="#contact" class="prop-cta">Enquire about this villa →</a>
+        </div>
+        <div class="prop-img">
+          <!-- REPLACE -->
+          <img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=1200&q=85"
+               alt="Finca Tranquila" loading="lazy" width="1200" height="900" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GHOST DESTINATION SWITCHER -->
+  <section class="ghost-section idle" id="destinations">
+    <div class="ghost-bg ghost-bg-1" data-index="0"></div>
+    <div class="ghost-bg ghost-bg-2" data-index="1"></div>
+    <div class="ghost-bg ghost-bg-3" data-index="2"></div>
+    <div class="ghost-bg ghost-bg-4" data-index="3"></div>
+    <div class="ghost-bg ghost-bg-5" data-index="4"></div>
+    <div class="ghost-scrim"></div>
+    <div class="ghost-content">
+      <p class="ghost-label r">— Where we work</p>
+      <!-- REPLACE: their actual destinations -->
+      <ul class="ghost-list">
+        <li class="ghost-item r r1" data-dest="0">
+          <span class="ghost-item-num">01</span>
+          <span class="ghost-item-name">Côte d'<em>Azur</em></span>
+          <span class="ghost-item-count">14 villas</span>
+        </li>
+        <li class="ghost-item r r2" data-dest="1">
+          <span class="ghost-item-num">02</span>
+          <span class="ghost-item-name"><em>Tuscany</em></span>
+          <span class="ghost-item-count">9 villas</span>
+        </li>
+        <li class="ghost-item r r3" data-dest="2">
+          <span class="ghost-item-num">03</span>
+          <span class="ghost-item-name">Ibi<em>za</em></span>
+          <span class="ghost-item-count">11 villas</span>
+        </li>
+        <li class="ghost-item r r4" data-dest="3">
+          <span class="ghost-item-num">04</span>
+          <span class="ghost-item-name">Myko<em>nos</em></span>
+          <span class="ghost-item-count">7 villas</span>
+        </li>
+        <li class="ghost-item r" style="transition-delay:520ms" data-dest="4">
+          <span class="ghost-item-num">05</span>
+          <span class="ghost-item-name"><em>Puglia</em></span>
+          <span class="ghost-item-count">6 villas</span>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- QUOTE -->
+  <section class="quote-section">
+    <div>
+      <p class="section-label r">— Guest</p>
+    </div>
+    <div>
+      <!-- REPLACE: real testimonial from their Google / Airbnb reviews -->
+      <p class="quote-hl r">
+        "We have stayed in hotels on five continents.
+        Nothing has come close to this."
+      </p>
+      <p class="quote-attr r r1">— Private guest, Villa Soleil · August 2024</p>
+    </div>
+  </section>
+
+  <!-- PROCESS -->
+  <section class="process" id="process">
+    <div>
+      <p class="section-label r">— How it works</p>
+    </div>
+    <div>
+      <!-- REPLACE: their actual process steps -->
+      <div class="process-grid">
+        <div class="process-item r">
+          <div class="process-num">01</div>
+          <h3 class="process-title">Initial <em>enquiry</em></h3>
+          <p class="process-body">Tell us your dates, your party, and how you like to spend your time. We'll do the rest.</p>
+        </div>
+        <div class="process-item r r1">
+          <div class="process-num">02</div>
+          <h3 class="process-title">Curated <em>shortlist</em></h3>
+          <p class="process-body">Within 48 hours, a considered selection of properties matched to your brief. Never a generic list.</p>
+        </div>
+        <div class="process-item r r2">
+          <div class="process-num">03</div>
+          <h3 class="process-title">Private <em>viewing</em></h3>
+          <p class="process-body">We arrange viewings and handle all owner communications on your behalf.</p>
+        </div>
+        <div class="process-item r r3">
+          <div class="process-num">04</div>
+          <h3 class="process-title">Arrival <em>& beyond</em></h3>
+          <p class="process-body">Transfers, chefs, boat hire, restaurant reservations — handled quietly, before you ask twice.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta" id="contact">
+    <div>
+      <p class="section-label r">— Enquire</p>
+    </div>
+    <div>
+      <h2 class="cta-hl r">
+        Your summer,<br><em>curated.</em>
+      </h2>
+      <div class="cta-actions r r1">
+        <!-- REPLACE: their actual email + phone -->
+        <a href="mailto:hello@example.com" class="cta-email">hello@example.com</a>
+        <span class="cta-or">or</span>
+        <a href="tel:+441234567890" class="cta-phone">+44 1234 567 890</a>
+      </div>
+      <p class="cta-note r r2">
+        The best villas in our collection are reserved 8–12 months
+        in advance. If you are considering summer 2025, now is
+        the right time to reach out.
+      </p>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <!-- REPLACE -->
+    <div class="footer-logo">Maison <em>Éclat</em></div>
+    <ul class="footer-links">
+      <li><a href="#properties">Villas</a></li>
+      <li><a href="#destinations">Destinations</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <p class="footer-copy">© 2025 Maison Éclat</p>
+  </footer>
+
+  <script>
+    // Nav background on scroll
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('bg', window.scrollY > 60);
+    }, { passive: true });
+
+    // Scroll reveals
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('on'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.08 });
+    document.querySelectorAll('.r').forEach(el => io.observe(el));
+
+    // Ghost destination switcher
+    const ghostSection = document.querySelector('.ghost-section');
+    const ghostBgs = document.querySelectorAll('.ghost-bg');
+    const ghostItems = document.querySelectorAll('.ghost-item');
+
+    ghostItems.forEach(item => {
+      item.addEventListener('mouseenter', () => {
+        const idx = parseInt(item.dataset.dest);
+        ghostSection.classList.remove('idle');
+        ghostBgs.forEach((bg, i) => bg.classList.toggle('active', i === idx));
+      });
+    });
+
+    ghostSection.addEventListener('mouseleave', () => {
+      ghostSection.classList.add('idle');
+      ghostBgs.forEach(bg => bg.classList.remove('active'));
+    });
+  </script>
+</body>
+</html>
